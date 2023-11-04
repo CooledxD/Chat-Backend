@@ -25,11 +25,17 @@ mysql.query(
   }
 )
 
-mysql.connect((err) => {
-  err ?
-  console.error(`Error: ${err.message}`) :
-  console.log('DB is connected')
-})
+// mysql.query(
+//   `
+//   SELECT * FROM INFORMATION_SCHEMA.TABLES
+//   WHERE TABLE_SCHEMA = 'chat'
+//   `,
+//   (err, result) => {
+//     err ?
+//     console.log(err.message) :
+//     console.log(result)
+//   }
+// )
 
 mysql.query(
   `
@@ -45,7 +51,7 @@ mysql.query(
   (err) => {
     err ?
     console.log(err.message) :
-    console.log('User table has been created')
+    console.log('Users table has been created')
   }
 )
 
@@ -63,6 +69,24 @@ mysql.query(
     err ?
     console.log(err.message) :
     console.log('RefreshTokens table has been created')
+  }
+)
+
+mysql.query(
+  `
+    CREATE TABLE IF NOT EXISTS messages (
+      id INT PRIMARY KEY AUTO_INCREMENT, 
+      creator_id INT NOT NULL, 
+      recipient_id INT NOT NULL, 
+      text VARCHAR(255) NOT NULL,
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP, 
+      updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )
+  `,
+  (err) => {
+    err ?
+    console.log(err.message) :
+    console.log('Messages table has been created')
   }
 )
 
